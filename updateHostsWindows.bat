@@ -12,14 +12,9 @@
 @echo off
 title Update Hosts
 
-:: Check if we are an administrator. If not, exit immediately.
-:: BatchGotAdmin
-:: Check for permissions
-if "%PROCESSOR_ARCHITECTURE%" equ "amd64" (
-  >nul 2>&1 "%SYSTEMROOT%\SysWOW64\cacls.exe" "%SYSTEMROOT%\SysWOW64\config\system"
-) else (
-  >nul 2>&1 "%SYSTEMROOT%\system32\cacls.exe" "%SYSTEMROOT%\system32\config\system"
-)
+:: Check if we are an administrator using net session.
+:: If %ERRORLEVEL% is 0, we have admin rights.
+net session >nul 2>&1
 
 :: If the error flag set, we do not have admin rights.
 if %ERRORLEVEL% neq 0 (
